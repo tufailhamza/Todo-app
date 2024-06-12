@@ -10,8 +10,12 @@ const AddTodo = (props) => {
   };
 
   const handleAdd = () => {
-    props.addList(text);
-    setText("");
+    if (text.trim() !== "") {
+      props.addList(text);
+      setText("");
+    } else {
+      window.alert("Please enter a task before adding!");
+    }
   };
 
   return (
