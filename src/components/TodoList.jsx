@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import deleteIcon from "../assets/delete.png";
 import editIcon from "../assets/pencil.png";
-const TodoList = (props) => {
+
+const TodoList = ({ item, itemKey, date, deleteItem, editItem }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedText, setEditedText] = useState(props.item);
+  const [editedText, setEditedText] = useState(item);
 
   const handleDelete = () => {
-    props.deleteItem
-      ? props.deleteItem(props.itemKey)
+    deleteItem
+      ? deleteItem(itemKey)
       : console.error(
-          "deleteItem function not provided to Todolist component."
+          "deleteItem function not provided to TodoList component."
         );
   };
 
@@ -22,21 +23,23 @@ const TodoList = (props) => {
   };
 
   const handleSave = () => {
-    props.editItem(props.itemKey, editedText);
+    editItem(itemKey, editedText);
     setIsEditing(false);
   };
+
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
+
   return (
     <li className="list-item">
       {isEditing ? (
         <input type="text" value={editedText} onChange={handleChange} />
       ) : (
         <>
-          <div style={{ margin: "10px" }}>{props.item}</div>
-          <div>{formatDate(props.date)}</div>
+          <div style={{ margin: "10px" }}>{item}</div>
+          <div>{formatDate(date)}</div>
         </>
       )}
       <span className="icons">
@@ -45,7 +48,7 @@ const TodoList = (props) => {
         ) : (
           <>
             <button onClick={handleEdit}>
-              <img src={editIcon} alt="delete" />
+              <img src={editIcon} alt="edit" />
             </button>
             <button onClick={handleDelete}>
               <img src={deleteIcon} alt="delete" />

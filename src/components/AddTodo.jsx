@@ -2,16 +2,22 @@ import React, { useState } from "react";
 import AddTodoButton from "./AddButton";
 import InputField from "./InputField";
 
-const AddTodo = (props) => {
+const AddTodo = ({ addList }) => {
   const [text, setText] = useState("");
 
   const handleChange = (e) => {
     setText(e.target.value);
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleAdd();
+    }
+  };
+
   const handleAdd = () => {
     if (text.trim() !== "") {
-      props.addList(text);
+      addList(text);
       setText("");
     } else {
       window.alert("Please enter a task before adding!");
@@ -25,6 +31,7 @@ const AddTodo = (props) => {
         placeholder="Enter Your task"
         value={text}
         onChange={handleChange}
+        onKeyPress={handleKeyPress} 
       />
       <AddTodoButton text="+" onClick={handleAdd} />
     </div>
